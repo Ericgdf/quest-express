@@ -32,6 +32,7 @@ const getMovieById = (req, res) => {
 };
 
 const postMovie = (req, res) => {
+ 
   const { title, director, year, color, duration } = req.body;
 
   database
@@ -48,8 +49,27 @@ const postMovie = (req, res) => {
     });
 };
 
+const updateMovie = (req, res) => {
+  const id = parseInt(req.params.id)
+  const { title, director, year, color, duration } = req.body;
+
+  database
+    .query(
+      "UPDATE movies SET title = ? , director = ? , year = ?, color = ?, duration =?  WHERE id = ?",
+      [title, director, year, color, duration, id]
+    )
+    .then(([result]) => {
+      res.location(`/api/movies/${result.insertId}`).sendStatus(201);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error saving the movie");
+    });
+};
+
 module.exports = {
   getMovies,
   getMovieById,
-  postMovie
+  postMovie,
+  updateMovie
 };

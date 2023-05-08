@@ -32,7 +32,7 @@ const getUsersById = (req, res) => {
 };
 
 const postUser = (req, res) => {
-  console.log(req.body);
+
   const { firstname, lastname, email, city, language } = req.body;
 
 
@@ -50,8 +50,27 @@ const postUser = (req, res) => {
     });
 };
 
+const updateUsers = (req, res) => {
+  const id = parseInt(req.params.id)
+  const { firstname, lastname, email, city, language } = req.body;
+
+  database
+    .query(
+      "UPDATE users SET firstname = ? , lastname = ? , email = ?, city = ?, language =?  WHERE id = ?",
+      [firstname, lastname, email, city, language, id]
+    )
+    .then(([result]) => {
+      res.location(`/api/users/${result.insertId}`).sendStatus(201);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error saving the users");
+    });
+};
+
 module.exports = {
     getUsers,
     getUsersById,
-    postUser
+    postUser,
+    updateUsers
 };
