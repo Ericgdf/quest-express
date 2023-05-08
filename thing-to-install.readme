@@ -1,1 +1,22 @@
+// etape instauration du projet 
+
+ -> npm init -y // crééer le fichier json
+ -> npm install express // instalation express
+ -> npm install nodemon --save-dev // install nodemon qui recharge le serevur a chaque modif mais que sur la partie dev
+    // MODIFIER le fichier json en fonction 
+    "main": "app.js", // nom du fichier à loader
+    "scripts": {
+      "start":"node app.js", 
+      "dev": "nodemon app.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    -> npm run dev // lancer le serveur
+
+ -> npm install dotenv // permet la générationd de ficher dotenv
+    -> cp .env.sample .env // ajoute une version sample pour les git clone
+    //ATTTTEEEENNNNNNTTTION Bien ajouter le .env au gitignore
+
+source express_quests.sql // en mysql pour connecter un fichier SQL
+
+-> npm install mysql2 // permet de communiquer avec une base de donnés MySqL
+
 -> npm i joi //middleware simplifier 
