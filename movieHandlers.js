@@ -2,8 +2,25 @@ const database = require("./data-base.js")
 
 
 const getMovies = (req, res) => {
+  // ajoute une condition a mon get 
+    let sql = "select * from movies";
+    const sqlValues = [];
+
+  // ajoute la conditions que si la couleurs est définit
+  if (req.query.color != null) {
+  sql += " where color = ?";
+  sqlValues.push(req.query.color);
+
+  // ajoute la conditions que si la duration est définit 
+  } else if (req.query.max_duration != null) {
+    sql += " where duration <= ?";
+    sqlValues.push(req.query.max_duration);
+  }
+
+ 
+    
   database
-    .query("select * from movies")
+    .query(sql, sqlValues) // remplacer la query par nos variable
     .then(([movies]) => {
       res.json(movies);
     })

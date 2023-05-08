@@ -2,9 +2,28 @@ const database = require("./data-base.js")
 
 
 const getUsers = (req, res) => {
+
+   // ajoute une condition a mon get 
+   let sql = "select * from users";
+   const sqlValues = [];
+   // ajoute la conditions que si la langue est définit 
+  if (req.query.language != null) {
+  sql += " where language = ?";
+  sqlValues.push(req.query.language);
+   // ajoute la conditions que si la city est définit 
+  } else if (req.query.city != null) {
+    sql += " where city = ?";
+    sqlValues.push(req.query.city);
+  }
+
+  
+
   database
-    .query("select * from users")
+    .query(sql, sqlValues)
     .then(([users]) => {
+      if(users.length === 0){
+        res.status(200).send("tableau vide ma geule");
+      } else
       res.json(users);
     })
     .catch((err) => {
